@@ -16,13 +16,13 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from keras.models import load_model
-
+import random
 
 #Controls
 extract_data = False
 plot_data = True
 
-
+im_compare_category = "2" #The save image comparisons will be from this category in the Nerthus dataset
 
 # Initialize paths
 path_to_script = os.getcwd()
@@ -40,13 +40,8 @@ results_file = os.path.join(output_path, "results.txt")
 # Loading model
 
 # Construct the path to the "Models" directory, which is one level above "Nerthus"
-model_path = os.path.join(path_to_script, '..', 'Models', 'OSABPS_MODEL_V1_OCT2023.h5')
-print(model_path)
+model_path = os.path.join(path_to_script, '..', '..', 'Models', 'OSABPS_MODEL_V1_OCT2023.h5')
 model_path = os.path.normpath(model_path)
-print(model_path)
-input(2)
-model_path = os.path.join(path_to_script,  'Models', 'OSABPS_MODEL_V1_OCT2023.h5')
-
 
 model = load_model(model_path)
 
@@ -151,3 +146,50 @@ if plot_data:
     plt.tight_layout()
     plt.savefig(os.path.join(output_path, 'boxplot.png'))
     plt.show()
+
+
+    print("\n-----------\n\nSaving random examples images\n\n-----------\n")
+    
+    all_images = []
+    for filenname in os.listdir(dataset_path+os.sep+im_compare_category+os.sep):
+        if filenname.endswith(".jpg"):all_images.append(filenname)
+    
+    print(len(all_images))  
+    random_examples = random.sample(all_images, 3)
+
+    for idx, img_path in enumerate(random_examples):
+ 
+        img = cv2.imread(dataset_path+os.sep+im_compare_category+os.sep+img_path)
+        print(img.shape)
+        _, im_rgb = preprocess_image(img)
+
+        # Make prediction
+        predictions = model.predict(np.expand_dims(im_rgb, axis=0), batch_size=1)
+        #print(predictions)
+        
+        decoded_img, scalar_pred = predictions
+        
+        scalar_value = scalar_pred[0][0]  # Extract scalar value
+        im_pred = decoded_img[0]  # Extract decoded image for plotting
+
+        print(scalar_value)
+        # Plot original and processed image side by side
+        plt.figure(figsize=(10, 5))
+
+        # Original image
+        plt.subplot(1, 2, 1)
+        plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        plt.title(f'Original Image {idx + 1}')
+        plt.axis('off')
+
+        # Prediction image
+        plt.subplot(1, 2, 2)
+        plt.imshow(cv2.cvtColor(im_pred, cv2.COLOR_BGR2RGB))
+        plt.title(f'Prediction: {scalar_value:.2f}')
+        plt.axis('off')
+
+        # Save the figure
+        plt.tight_layout()
+        example_path = os.path.join(output_path, f'example_{idx + 1}.png')
+        plt.savefig(example_path)
+        plt.show()
