@@ -39,5 +39,6 @@ Version used in [DOI]: OSABPS_MODEL_V1_OCT2023.h5
 
 
 
+## Other information
 ##### LLM usage
 ChatGPT 1o preview was used for making scripts and code adhere to PEP8 standards and for cleaning code, i.e. removing dev-comments, removing unused imports and vars, etc
