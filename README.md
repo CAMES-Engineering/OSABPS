@@ -2,7 +2,7 @@
 
 Open Source Automatic Bowel Preparation Score: Code, weights and updates for the OSABPS metric for assessing colonoscopy bowel preparation 
 
-Related to publication XYZ in Journal YZZ [DOI: ] IN REVIEW  
+Related to publication Development and validation of the Open-Source Automatic Bowel Preparation Scale in Gastrointestinal Endoscopy [https://doi.org/10.1016/j.gie.2024.11.022]
 
 ## OSABPS
 
@@ -34,9 +34,15 @@ _Nerthus_: Example for downloading data, and python code to analyse the whole da
 
 
 ### Versions
-Version used in [DOI]: OSABPS_MODEL_V1_OCT2023.h5
+Version used in [/10.1016/j.gie.2024.11.022]: OSABPS_MODEL_V1_OCT2023.h5
 
 
+### Debuggin'
+
+```
+OSError: Unable to synchronously open file (file signature not found)
+```
+I encountered the above error when downloading the model file for another project. Github only provided a 2kb file for the 2.5mb model, both during direct download, but also zipped download of the whole repo. The full file could be downloaded by choosing the "raw" mode under the file.
 
 
 ## Other information
