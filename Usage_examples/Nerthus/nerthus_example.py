@@ -40,7 +40,7 @@ results_file = os.path.join(output_path, "results.txt")
 # Loading model
 
 # Construct the path to the "Models" directory, which is one level above "Nerthus"
-model_path = os.path.join(path_to_script, '..', '..', 'Models', 'OSABPS_MODEL_V1_OCT2023.h5')
+model_path = os.path.join(path_to_script, '..', '..', 'Models', 'OSABPS_MODEL_V1.h5')
 model_path = os.path.normpath(model_path)
 
 model = load_model(model_path)
